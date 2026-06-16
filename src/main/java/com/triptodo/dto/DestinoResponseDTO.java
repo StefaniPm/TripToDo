@@ -1,54 +1,41 @@
-package com.triptodo.model;
+package com.triptodo.dto;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.triptodo.model.Destino;
 
-@Entity
-@Table(name = "destinos")
-public class Destino {
+public class DestinoResponseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
     private String nome;
-
-    @Column(nullable = false)
     private String cidade;
-
-    @Column(nullable = false)
     private String pais;
-
     private LocalDate dataChegada;
-
     private LocalDate dataSaida;
+    private Long viagemId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "viagem_id", nullable = false)
-    private Viagem viagem;
-
-    public Destino() {
+    public DestinoResponseDTO() {
     }
 
-    public Destino(Long id, String nome, String cidade, String pais,
-                   LocalDate dataChegada, LocalDate dataSaida, Viagem viagem) {
+    public DestinoResponseDTO(Long id, String nome, String cidade, String pais,
+                              LocalDate dataChegada, LocalDate dataSaida, Long viagemId) {
         this.id = id;
         this.nome = nome;
         this.cidade = cidade;
         this.pais = pais;
         this.dataChegada = dataChegada;
         this.dataSaida = dataSaida;
-        this.viagem = viagem;
+        this.viagemId = viagemId;
+    }
+
+    public DestinoResponseDTO(Destino destino) {
+        this.id = destino.getId();
+        this.nome = destino.getNome();
+        this.cidade = destino.getCidade();
+        this.pais = destino.getPais();
+        this.dataChegada = destino.getDataChegada();
+        this.dataSaida = destino.getDataSaida();
+        this.viagemId = destino.getViagem() != null ? destino.getViagem().getId() : null;
     }
 
     public Long getId() {
@@ -99,11 +86,11 @@ public class Destino {
         this.dataSaida = dataSaida;
     }
 
-    public Viagem getViagem() {
-        return viagem;
+    public Long getViagemId() {
+        return viagemId;
     }
 
-    public void setViagem(Viagem viagem) {
-        this.viagem = viagem;
+    public void setViagemId(Long viagemId) {
+        this.viagemId = viagemId;
     }
 }
