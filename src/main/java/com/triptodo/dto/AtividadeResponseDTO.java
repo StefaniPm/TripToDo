@@ -1,54 +1,42 @@
-package com.triptodo.model;
+package com.triptodo.dto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.triptodo.model.Atividade;
 
-@Entity
-@Table(name = "atividades")
-public class Atividade {
+public class AtividadeResponseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
     private String titulo;
-
     private String descricao;
-
-    @Column(nullable = false)
     private LocalDate data;
-
     private LocalTime horario;
-
     private String local;
+    private Long destinoId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "destino_id", nullable = false)
-    private Destino destino;
-
-    public Atividade() {
+    public AtividadeResponseDTO() {
     }
 
-    public Atividade(Long id, String titulo, String descricao, LocalDate data,
-                     LocalTime horario, String local, Destino destino) {
+    public AtividadeResponseDTO(Long id, String titulo, String descricao, LocalDate data,
+                                LocalTime horario, String local, Long destinoId) {
         this.id = id;
         this.titulo = titulo;
         this.descricao = descricao;
         this.data = data;
         this.horario = horario;
         this.local = local;
-        this.destino = destino;
+        this.destinoId = destinoId;
+    }
+
+    public AtividadeResponseDTO(Atividade atividade) {
+        this.id = atividade.getId();
+        this.titulo = atividade.getTitulo();
+        this.descricao = atividade.getDescricao();
+        this.data = atividade.getData();
+        this.horario = atividade.getHorario();
+        this.local = atividade.getLocal();
+        this.destinoId = atividade.getDestino() != null ? atividade.getDestino().getId() : null;
     }
 
     public Long getId() {
@@ -99,11 +87,11 @@ public class Atividade {
         this.local = local;
     }
 
-    public Destino getDestino() {
-        return destino;
+    public Long getDestinoId() {
+        return destinoId;
     }
 
-    public void setDestino(Destino destino) {
-        this.destino = destino;
+    public void setDestinoId(Long destinoId) {
+        this.destinoId = destinoId;
     }
 }
