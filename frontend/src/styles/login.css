@@ -1,0 +1,149 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.login-page{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  background: linear-gradient(
+    135deg,
+    #15345d,
+    #496f9c
+  );
+}
+
+.login-card{
+  width:500px;
+
+  background:#f4f0df;
+
+  border-radius:20px;
+
+  padding:40px;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.2);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+/*Logo*/
+.logo-circle{
+  width:65px;
+  height:65px;
+  border-radius:50%;
+  background:#0f2f5c;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:white;
+  font-size:40px;
+
+  margin-bottom:20px;
+}
+
+/*TripToDo*/
+.login-card h1{
+  color:#0f2f5c;
+  font-size:52px;
+  margin-bottom:10px;
+}
+
+/*Gerencie suas viagens com facilidade*/
+.subtitle{
+  color:#6282ad;
+  margin-bottom:15px;
+  font-size:18px;
+}
+
+/*Linhas do formulario*/
+form{
+  width:100%;
+}
+
+label{
+  display:block;
+  margin-bottom:10px;
+  margin-top:20px;
+  color:#0f2f5c;
+  font-weight:bold;
+  font-size:20px;
+}
+
+input{
+  width:100%;
+  padding:18px;
+  border-radius:12px;
+  border:2px solid #a8bdd9;
+  font-size:18px;
+  background:#f8f8f8;
+  margin-bottom:10px;
+}
+
+input:focus{
+  outline:none;
+  border-color:#0f2f5c;
+}
+
+/*Botao entrar*/
+button{
+  width:100%;
+  margin-top:35px;
+  padding:18px;
+  border:none;
+  border-radius:12px;
+  background:#0f2f5c;
+  color:white;
+  font-size:22px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  opacity:0.9;
+}
+
+.register{
+  margin-top:35px;
+  color:#6a8bb7;
+  font-size:18px;
+}
+
+.register span{
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.signup-link {
+  margin-top: 35px;
+  color: #6a8bb7;
+  font-size: 18px;
+}
+
+.signup-link span {
+  font-weight: bold;
+  cursor: pointer;
+  color: #0f2f5c;
+}
+
+.signup-link span:hover {
+  text-decoration: underline;
+}
+
+.error {
+  color: #b3261e;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
