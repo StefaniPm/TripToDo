@@ -22,7 +22,7 @@ A plataforma permite centralizar informações importantes, como destinos, rotei
 - CSS
 
 ### Banco de Dados
-- Banco de dados relacional (a definir)
+- PostgreSQL
 
 ---
 
