@@ -1,0 +1,123 @@
+.adicionar-page {
+  min-height: 100vh;
+  background: #f4f0df;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.adicionar-header {
+  height: 65px;
+  background: #0f2f5c;
+  display: flex;
+  align-items: center;
+  padding: 0 90px;
+}
+
+.adicionar-back-button {
+  width: auto;
+  margin-top: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.adicionar-back-button:hover {
+  opacity: 0.8;
+}
+
+.adicionar-content {
+  display: flex;
+  justify-content: center;
+  padding: 35px 20px;
+}
+
+.adicionar-card {
+  width: 600px;
+  background: white;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 2px 6px rgba(15, 47, 92, 0.15);
+}
+
+.adicionar-card h1 {
+  color: #0f2f5c;
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.adicionar-card p {
+  color: #6f8fbb;
+  margin-bottom: 28px;
+}
+
+.adicionar-card form {
+  width: 100%;
+}
+
+.adicionar-card label {
+  display: block;
+  color: #0f2f5c;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 8px;
+  margin-top: 18px;
+}
+
+.adicionar-card input {
+  width: 100%;
+  padding: 14px;
+  border: 1.5px solid #7fa4d1;
+  border-radius: 8px;
+  font-size: 15px;
+  background: white;
+}
+
+.adicionar-card input:focus {
+  outline: none;
+  border-color: #0f2f5c;
+}
+
+.adicionar-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.cancelar-button {
+  width: 50%;
+  margin-top: 0;
+  padding: 14px;
+  border-radius: 8px;
+  background: white;
+  color: #0f2f5c;
+  border: 1.5px solid #7fa4d1;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.salvar-button {
+  width: 50%;
+  margin-top: 0;
+  padding: 14px;
+  border-radius: 8px;
+  background: #0f2f5c;
+  color: white;
+  border: none;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.cancelar-button:hover,
+.salvar-button:hover {
+  opacity: 0.9;
+}
+
+.adicionar-error {
+  color: #b3261e;
+  font-weight: bold;
+}

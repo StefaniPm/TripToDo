@@ -126,3 +126,20 @@
   transform: translateY(-4px);
   box-shadow: 0 4px 12px rgba(15, 47, 92, 0.25);
 }
+
+.delete-button {
+  width: auto;
+  margin-top: 0;
+  padding: 8px 16px;
+  background: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background: #c9302c;
+}

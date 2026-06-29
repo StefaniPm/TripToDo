@@ -1,69 +1,46 @@
-package com.triptodo.model;
+package com.triptodo.dto;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-@Entity
-@Table(name = "voos")
-public class Voo {
+public class VooRequestDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
+    @NotBlank(message = "A companhia é obrigatória.")
     private String companhia;
 
-    @Column(nullable = false)
+    @NotBlank(message = "O número do voo é obrigatório.")
     private String numeroVoo;
 
-    @Column(nullable = false)
+    @NotBlank(message = "O aeroporto de origem é obrigatório.")
     private String aeroportoOrigem;
 
-    @Column(nullable = false)
+    @NotBlank(message = "O aeroporto de destino é obrigatório.")
     private String aeroportoDestino;
 
-    @Column(nullable = false)
+    @NotNull(message = "A data e hora de partida são obrigatórias.")
     private LocalDateTime dataHoraPartida;
 
-    @Column(nullable = false)
+    @NotNull(message = "A data e hora de chegada são obrigatórias.")
     private LocalDateTime dataHoraChegada;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "destino_id", nullable = false)
-    private Destino destino;
+    @NotNull(message = "O ID do destino é obrigatório.")
+    private Long destinoId;
 
-    public Voo() {
+    public VooRequestDTO() {
     }
 
-    public Voo(Long id, String companhia, String numeroVoo, String aeroportoOrigem,
-               String aeroportoDestino, LocalDateTime dataHoraPartida,
-               LocalDateTime dataHoraChegada, Destino destino) {
-        this.id = id;
+    public VooRequestDTO(String companhia, String numeroVoo, String aeroportoOrigem,
+                         String aeroportoDestino, LocalDateTime dataHoraPartida,
+                         LocalDateTime dataHoraChegada, Long destinoId) {
         this.companhia = companhia;
         this.numeroVoo = numeroVoo;
         this.aeroportoOrigem = aeroportoOrigem;
         this.aeroportoDestino = aeroportoDestino;
         this.dataHoraPartida = dataHoraPartida;
         this.dataHoraChegada = dataHoraChegada;
-        this.destino = destino;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        this.destinoId = destinoId;
     }
 
     public String getCompanhia() {
@@ -114,11 +91,11 @@ public class Voo {
         this.dataHoraChegada = dataHoraChegada;
     }
 
-    public Destino getDestino() {
-        return destino;
+    public Long getDestinoId() {
+        return destinoId;
     }
 
-    public void setDestino(Destino destino) {
-        this.destino = destino;
+    public void setDestinoId(Long destinoId) {
+        this.destinoId = destinoId;
     }
 }

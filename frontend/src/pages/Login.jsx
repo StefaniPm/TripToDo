@@ -1,6 +1,7 @@
 import '../styles/login.css'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import axios from 'axios'
 
 export default function Login() {
     const navigate = useNavigate()
@@ -8,30 +9,27 @@ export default function Login() {
     const [password, setPassword] = useState('')
     const [erro, setErro] = useState('')
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
+    const handleSubmit = async (e) => {
+    e.preventDefault()
 
-        if(!email && !password) {
-            setErro('Digite email e senha para continuar')
-            return
-        }
+    try {
 
-        if(!email) {
-            setErro('Digite seu email para continuar')
-            return
-        }
+        await axios.post(
+            'http://localhost:8081/usuarios/login',
+            {
+                email: email,
+                senha: password
+            }
+        )
 
-        if(!password) {
-            setErro('Digite sua senha para continuar')
-            return
-        }
+        navigate('/home')
 
-        setErro('')
+    } catch (error) {
 
-        if (email && password) {
-            navigate('/home')
-        }
+        setErro('Email ou senha inválidos')
+
     }
+}
 
     return (
         <div className="login-page">

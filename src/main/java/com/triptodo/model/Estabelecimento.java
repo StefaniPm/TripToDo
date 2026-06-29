@@ -1,9 +1,9 @@
 package com.triptodo.model;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,42 +13,39 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "transfers")
-public class Transfer {
+@Table(name = "estabelecimentos")
+public class Estabelecimento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String tipo;
+    private String nome;
 
     @Column(nullable = false)
-    private String localOrigem;
-
-    @Column(nullable = false)
-    private String localDestino;
-
-    @Column(nullable = false)
-    private LocalDateTime dataHora;
+    private String endereco;
 
     private String observacao;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TipoEstabelecimento tipo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "destino_id", nullable = false)
     private Destino destino;
 
-    public Transfer() {
+    public Estabelecimento() {
     }
 
-    public Transfer(Long id, String tipo, String localOrigem, String localDestino,
-                    LocalDateTime dataHora, String observacao, Destino destino) {
+    public Estabelecimento(Long id, String nome, String endereco, String observacao,
+                           TipoEstabelecimento tipo, Destino destino) {
         this.id = id;
-        this.tipo = tipo;
-        this.localOrigem = localOrigem;
-        this.localDestino = localDestino;
-        this.dataHora = dataHora;
+        this.nome = nome;
+        this.endereco = endereco;
         this.observacao = observacao;
+        this.tipo = tipo;
         this.destino = destino;
     }
 
@@ -56,24 +53,20 @@ public class Transfer {
         return id;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getNome() {
+        return nome;
     }
 
-    public String getLocalOrigem() {
-        return localOrigem;
-    }
-
-    public String getLocalDestino() {
-        return localDestino;
-    }
-
-    public LocalDateTime getDataHora() {
-        return dataHora;
+    public String getEndereco() {
+        return endereco;
     }
 
     public String getObservacao() {
         return observacao;
+    }
+
+    public TipoEstabelecimento getTipo() {
+        return tipo;
     }
 
     public Destino getDestino() {
@@ -84,24 +77,20 @@ public class Transfer {
         this.id = id;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public void setLocalOrigem(String localOrigem) {
-        this.localOrigem = localOrigem;
-    }
-
-    public void setLocalDestino(String localDestino) {
-        this.localDestino = localDestino;
-    }
-
-    public void setDataHora(LocalDateTime dataHora) {
-        this.dataHora = dataHora;
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 
     public void setObservacao(String observacao) {
         this.observacao = observacao;
+    }
+
+    public void setTipo(TipoEstabelecimento tipo) {
+        this.tipo = tipo;
     }
 
     public void setDestino(Destino destino) {

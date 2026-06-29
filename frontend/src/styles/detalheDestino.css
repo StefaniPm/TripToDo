@@ -1,0 +1,141 @@
+.detalhe-page {
+  min-height: 100vh;
+  background: #f4f0df;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.detalhe-header {
+  background: #0f2f5c;
+  color: white;
+  padding: 18px 65px;
+}
+
+.detalhe-back-button {
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 25px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.detalhe-back-button:hover {
+  opacity: 0.8;
+}
+
+.detalhe-header-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detalhe-header-bottom h1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.detalhe-add-button {
+  width: auto;
+  margin-top: 0;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 8px;
+  background: #5e86bd;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.detalhe-content {
+  padding: 28px 65px;
+}
+
+.detalhe-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(15, 47, 92, 0.12);
+  overflow: hidden;
+}
+
+.detalhe-tabs {
+  display: flex;
+  border-bottom: 1.5px solid #a8bdd9;
+  padding: 0 20px;
+}
+
+.tab {
+  width: auto;
+  margin-top: 0;
+  padding: 18px 20px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: #5e86bd;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.tab:hover {
+  opacity: 0.8;
+}
+
+.tab.active {
+  color: #0f2f5c;
+  border-bottom: 2px solid #0f2f5c;
+}
+
+.detalhe-lista {
+  padding: 22px;
+}
+
+.detalhe-item {
+  background: #f4f0df;
+  border-radius: 8px;
+  padding: 18px;
+  margin-bottom: 12px;
+}
+
+.detalhe-item h3 {
+  color: #0f2f5c;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.detalhe-item p,
+.detalhe-item span {
+  color: #5e86bd;
+  font-size: 14px;
+}
+
+.detalhe-item-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detalhe-data {
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  float: left;
+}
+
+.detalhe-data + h3 {
+  margin-left: 85px;
+}
+
+.tag-refeicao {
+  background: #5e86bd;
+  color: white !important;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-weight: bold;
+}

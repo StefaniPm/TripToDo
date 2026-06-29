@@ -1,31 +1,52 @@
 import '../styles/home.css'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 
 export default function Home() {
   const navigate = useNavigate()
-  const viagens = [
-    {
-      id:1,
-      titulo: 'Viagem para Paris',
-      data: '2024-07-15',
-      destino: 'Paris, França',
-      status: 'Planejada'
-    },
-    {
-      id: 2,
-      titulo: 'Viagem para Nova York',
-      data: '2024-08-20',
-      destino: 'Nova York, EUA',
-      status: 'Em andamento'
-    },
-    {
-      id: 3,
-      titulo: 'Viagem para Tóquio',
-      data: '2024-09-10',
-      destino: 'Tóquio, Japão',
-      status: 'Confirmada'
+  const [viagens, setViagens] = useState([]);
+
+  useEffect(() => {
+    const carregarViagens = async () => {
+      try {
+        const response = await fetch('http://localhost:8081/viagens');
+
+        if (!response.ok) {
+          throw new Error('Erro ao carregar viagens');
+        }
+
+        const data = await response.json();
+
+        setViagens(data);
+
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    carregarViagens();
+  }, []);
+
+    const deletarViagem = async (id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8081/viagens/${id}`,
+        {
+          method: 'DELETE'
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Erro ao excluir viagem');
+      }
+
+      setViagens(viagens.filter(v => v.id !== id));
+
+    } catch (error) {
+      console.error(error);
+      alert('Erro ao excluir viagem');
     }
-  ]
+  };
 
   return (
     <div className='home-page'>
@@ -44,24 +65,41 @@ export default function Home() {
 
         <div className='trips-container'>
           {viagens.map((viagem) => (
-            <div className='trip-card' key={viagem.id} onClick={() => navigate(`/roteiro/${viagem.id}`)}>
+            <div
+              className='trip-card'
+              key={viagem.id}
+              onClick={() => navigate(`/viagem/${viagem.id}/destinos`)}
+            >
               <div className='trip-header'>
-                <h2>{viagem.titulo}</h2>
-                <span className={viagem.status === 'Confirmada'
-                                        ? 'status confirmed'
-                                        : viagem.status === 'Planejada'
-                                        ? 'status planning'
-                                        : 'status in-progress'
-                                }>
-                                    {viagem.status}
-                                </span>
+                <h2>{viagem.nome}</h2>
+
+                <button
+                  className='delete-button'
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deletarViagem(viagem.id);
+                  }}
+                >
+                  Excluir
+                </button>
               </div>
-              <p className='trip-info'>📍 {viagem.destino}</p>
-              <p className='trip-info'>📅 {viagem.data}</p>
+
+              <p className='trip-info'>
+                📝 {viagem.descricao}
+              </p>
+
+              <p className='trip-info'>
+                📅 Início: {viagem.dataInicio}
+              </p>
+
+              <p className='trip-info'>
+                📅 Fim: {viagem.dataFim}
+              </p>
             </div>
           ))}
         </div>
       </main>
     </div>
-  )
-}
+  );
+}        
