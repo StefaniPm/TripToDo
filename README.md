@@ -62,7 +62,14 @@ mvn spring-boot:run
 
 Ou execute a classe principal do projeto pela IDE.
 
----
+### 6. Rodar frontend
+
+```bash
+cd frontend
+
+npm run dev
+```
+Abrir link gerado
 
 ## Funcionalidades
 
