@@ -71,8 +71,6 @@ npm run dev
 ```
 Abrir link gerado
 
----
-
 ## Funcionalidades
 
 - Cadastro de usuários;
