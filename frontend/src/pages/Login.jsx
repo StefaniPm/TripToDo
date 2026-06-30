@@ -10,26 +10,25 @@ export default function Login() {
     const [erro, setErro] = useState('')
 
     const handleSubmit = async (e) => {
-    e.preventDefault()
+        e.preventDefault()
 
-    try {
+        try {
+            const response = await axios.post(
+                'http://localhost:8081/usuarios/login',
+                {
+                    email: email,
+                    senha: password
+                }
+            )
 
-        await axios.post(
-            'http://localhost:8081/usuarios/login',
-            {
-                email: email,
-                senha: password
-            }
-        )
+            localStorage.setItem('usuarioLogado', JSON.stringify(response.data))
 
-        navigate('/home')
+            navigate('/home')
 
-    } catch (error) {
-
-        setErro('Email ou senha inválidos')
-
+        } catch (error) {
+            setErro('Email ou senha inválidos')
+        }
     }
-}
 
     return (
         <div className="login-page">
@@ -46,6 +45,7 @@ export default function Login() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
+
                     <label>Senha</label>
                     <input 
                         type="password" 
@@ -59,7 +59,10 @@ export default function Login() {
                     <button>Entrar</button>
                 </form>
                 
-                <p className="signup-link">Não tem uma conta? {' ' } <span onClick={() => navigate('/cadastro')}>Cadastre-se</span></p>
+                <p className="signup-link">
+                    Não tem uma conta?{' '}
+                    <span onClick={() => navigate('/cadastro')}>Cadastre-se</span>
+                </p>
             </div>
         </div>
     )

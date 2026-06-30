@@ -2,56 +2,52 @@ import '../styles/destinos.css'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
-export default function Destinos (){
+export default function Destinos() {
     const navigate = useNavigate()
     const { id } = useParams()
 
-    const [viagemAtual, setViagemAtual] = useState(null);
-
-    const [destinos, setDestinos] = useState([]);
-
-
+    const [viagemAtual, setViagemAtual] = useState(null)
+    const [destinos, setDestinos] = useState([])
 
     useEffect(() => {
+        const usuarioSalvo = localStorage.getItem('usuarioLogado')
 
-        const carregarViagem = async () => {
+        if (!usuarioSalvo) {
+            navigate('/login')
+            return
+        }
+
+        const usuarioLogado = JSON.parse(usuarioSalvo)
+
+        const carregarDados = async () => {
             try {
-                const response = await fetch(`http://localhost:8081/viagens/${id}`);
+                const responseViagem = await fetch(`http://localhost:8081/viagens/${id}?usuarioId=${usuarioLogado.id}`)
 
-                if (!response.ok) {
-                    throw new Error("Erro ao carregar viagem");
+                if (!responseViagem.ok) {
+                    throw new Error('Viagem não encontrada para este usuário')
                 }
 
-                const data = await response.json();
+                const viagem = await responseViagem.json()
+                setViagemAtual(viagem)
 
-                setViagemAtual(data);
+                const responseDestinos = await fetch(`http://localhost:8081/destinos/viagem/${id}`)
 
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        const carregarDestinos = async () => {
-            try {
-                const response = await fetch(
-                    `http://localhost:8081/destinos/viagem/${id}`
-                );
-
-                if (!response.ok) {
-                    throw new Error("Erro ao carregar destinos");
+                if (!responseDestinos.ok) {
+                    throw new Error('Erro ao carregar destinos')
                 }
 
-                const data = await response.json();
-
-                setDestinos(data);
+                const destinos = await responseDestinos.json()
+                setDestinos(destinos)
 
             } catch (error) {
-                console.error(error);
+                console.error(error)
+                alert('Você não tem acesso a essa viagem.')
+                navigate('/home')
             }
-        };
+        }
 
-        carregarViagem();
-        carregarDestinos();
-    }, [id]);
+        carregarDados()
+    }, [id, navigate])
 
     return (
         <div className="destinos-page">
@@ -64,15 +60,17 @@ export default function Destinos (){
                     ← Voltar
                 </button>
 
-               <h1>{viagemAtual ? viagemAtual.nome : 'Viagem'}</h1>
+                <h1>{viagemAtual ? viagemAtual.nome : 'Viagem'}</h1>
             </header>
 
             <main className="destinos-content">
                 <div className="destinos-top">
                     <h2>Destinos</h2>
 
-                    <button className="add-destino-button"
-                        onClick={() => navigate(`/viagem/${id}/adicionar/destino`)}>
+                    <button 
+                        className="add-destino-button"
+                        onClick={() => navigate(`/viagem/${id}/adicionar/destino`)}
+                    >
                         + Adicionar Destino
                     </button>
                 </div>
@@ -97,8 +95,6 @@ export default function Destinos (){
 
                                 <p>📅 {destino.dataSaida}</p>
                             </div>
-
-                            
                         </div>
                     ))}
                 </div>

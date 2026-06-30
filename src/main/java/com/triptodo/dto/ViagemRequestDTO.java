@@ -21,45 +21,57 @@ public class ViagemRequestDTO {
     @FutureOrPresent(message = "A data de fim deve ser hoje ou uma data futura.")
     private LocalDate dataFim;
 
+    @NotNull(message = "O usuário da viagem é obrigatório.")
+    private Long usuarioId;
+
     public ViagemRequestDTO() {
     }
 
-    public ViagemRequestDTO(String nome, String descricao, LocalDate dataInicio, LocalDate dataFim) {
+    public ViagemRequestDTO(String nome, String descricao, LocalDate dataInicio, LocalDate dataFim, Long usuarioId) {
         this.nome = nome;
         this.descricao = descricao;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
+        this.usuarioId = usuarioId;
     }
 
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public String getDescricao() {
         return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
     }
 
     public LocalDate getDataInicio() {
         return dataInicio;
     }
 
-    public void setDataInicio(LocalDate dataInicio) {
-        this.dataInicio = dataInicio;
-    }
-
     public LocalDate getDataFim() {
         return dataFim;
     }
 
+    public Long getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public void setDataInicio(LocalDate dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+
     public void setDataFim(LocalDate dataFim) {
         this.dataFim = dataFim;
+    }
+
+    public void setUsuarioId(Long usuarioId) {
+        this.usuarioId = usuarioId;
     }
 }

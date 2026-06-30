@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.triptodo.dto.ViagemRequestDTO;
@@ -34,30 +35,39 @@ public class ViagemController {
     @PostMapping
     public ResponseEntity<ViagemResponseDTO> criar(@Valid @RequestBody ViagemRequestDTO dto) {
         ViagemResponseDTO viagemCriada = viagemService.criar(dto);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(viagemCriada);
     }
 
-    @GetMapping
-    public ResponseEntity<List<ViagemResponseDTO>> listarTodas() {
-        return ResponseEntity.ok(viagemService.listarTodas());
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<ViagemResponseDTO>> listarPorUsuario(@PathVariable Long usuarioId) {
+        return ResponseEntity.ok(viagemService.listarPorUsuario(usuarioId));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ViagemResponseDTO> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(viagemService.buscarPorId(id));
+    public ResponseEntity<ViagemResponseDTO> buscarPorId(
+            @PathVariable Long id,
+            @RequestParam Long usuarioId
+    ) {
+        return ResponseEntity.ok(viagemService.buscarPorId(id, usuarioId));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ViagemResponseDTO> atualizar(
             @PathVariable Long id,
+            @RequestParam Long usuarioId,
             @Valid @RequestBody ViagemRequestDTO dto
     ) {
-        return ResponseEntity.ok(viagemService.atualizar(id, dto));
+        return ResponseEntity.ok(viagemService.atualizar(id, usuarioId, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        viagemService.deletar(id);
+    public ResponseEntity<Void> deletar(
+            @PathVariable Long id,
+            @RequestParam Long usuarioId
+    ) {
+        viagemService.deletar(id, usuarioId);
+
         return ResponseEntity.noContent().build();
     }
 }

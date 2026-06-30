@@ -1,17 +1,26 @@
-import '../styles/novaViagem.css';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import '../styles/novaViagem.css'
+import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 
 export default function NovaViagem() {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
-    const [nome, setNome] = useState('');
-    const [descricao, setDescricao] = useState('');
-    const [dataInicio, setDataInicio] = useState('');
-    const [dataFim, setDataFim] = useState('');
+    const [nome, setNome] = useState('')
+    const [descricao, setDescricao] = useState('')
+    const [dataInicio, setDataInicio] = useState('')
+    const [dataFim, setDataFim] = useState('')
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
+
+        const usuarioSalvo = localStorage.getItem('usuarioLogado')
+
+        if (!usuarioSalvo) {
+            navigate('/login')
+            return
+        }
+
+        const usuarioLogado = JSON.parse(usuarioSalvo)
 
         try {
             const response = await fetch('http://localhost:8081/viagens', {
@@ -23,32 +32,39 @@ export default function NovaViagem() {
                     nome,
                     descricao,
                     dataInicio,
-                    dataFim
+                    dataFim,
+                    usuarioId: usuarioLogado.id
                 })
-            });
+            })
 
             if (!response.ok) {
-                throw new Error('Erro ao criar viagem');
+                throw new Error('Erro ao criar viagem')
             }
 
-            const viagemCriada = await response.json();
+            const viagemCriada = await response.json()
 
-            console.log('Viagem criada:', viagemCriada);
+            console.log('Viagem criada:', viagemCriada)
 
-            alert('Viagem criada com sucesso!');
+            alert('Viagem criada com sucesso!')
 
-            navigate('/home');
+            navigate('/home')
 
         } catch (error) {
-            console.error(error);
-            alert('Erro ao criar viagem');
+            console.error(error)
+            alert('Erro ao criar viagem')
         }
-    };
+    }
 
     return (
         <div className='nova-page'>
             <header className='nova-header'>
-                <button type='button' className='nova-back-button' onClick={() => navigate('/home')}>← Voltar</button>
+                <button 
+                    type='button' 
+                    className='nova-back-button' 
+                    onClick={() => navigate('/home')}
+                >
+                    ← Voltar
+                </button>
             </header>
 
             <main className='nova-content'>
@@ -65,12 +81,13 @@ export default function NovaViagem() {
                             onChange={(e) => setNome(e.target.value)}
                         />
 
-                        <label>Data de inicio</label>
+                        <label>Data de início</label>
                         <input
                             type="date"
                             value={dataInicio}
                             onChange={(e) => setDataInicio(e.target.value)}
                         />
+
                         <label>Data de fim</label>
                         <input
                             type="date"
@@ -78,7 +95,6 @@ export default function NovaViagem() {
                             onChange={(e) => setDataFim(e.target.value)}
                         />
 
-                        
                         <label>Descrição</label>
                         <input
                             type="text"
@@ -88,13 +104,21 @@ export default function NovaViagem() {
                         />
 
                         <div className='nova-buttons'>
-                            <button type='button' className='nova-cancel-button' onClick={() => navigate('/home')}>Cancelar</button>
-                            <button type='submit' className='nova-save-button'>Criar viagem</button>
+                            <button 
+                                type='button' 
+                                className='nova-cancel-button' 
+                                onClick={() => navigate('/home')}
+                            >
+                                Cancelar
+                            </button>
+
+                            <button type='submit' className='nova-save-button'>
+                                Criar viagem
+                            </button>
                         </div>
                     </form>
                 </div>
             </main>
         </div>
     )
-
 }
