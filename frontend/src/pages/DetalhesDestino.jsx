@@ -1,115 +1,219 @@
 import '../styles/detalheDestino.css'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function DetalheDestino() {
     const navigate = useNavigate()
     const { id } = useParams()
 
     const [abaAtiva, setAbaAtiva] = useState('roteiro')
+    const [atividades, setAtividades] = useState([]);
+    const [voos, setVoos] = useState([]);
+    const [hospedagens, setHospedagens] = useState([]);
+    const [transfers, setTransfers] = useState([]);
+    const [comidas, setComidas] = useState([]);
+    const [destinoAtual, setDestinoAtual] = useState(null);
 
-    const destinos = [
-        {
-            id: 1,
-            cidade: 'Paris',
-            pais: 'França'
-        },
-        {
-            id: 2,
-            cidade: 'Londres',
-            pais: 'Inglaterra'
-        },
-        {
-            id: 3,
-            cidade: 'Amsterdã',
-            pais: 'Holanda'
-        }
-    ]
+    useEffect(() => {
 
-    const destinoAtual = destinos.find((destino) => destino.id === Number(id))
+        fetch(`http://localhost:8081/atividades/destino/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                setAtividades(data);
+            })
+            .catch(error => console.error(error));
 
-    const roteiro = [
-        { dia: 'Dia 1', horario: '09:00', nome: 'Torre Eiffel' },
-        { dia: 'Dia 1', horario: '14:00', nome: 'Museu do Louvre' },
-        { dia: 'Dia 2', horario: '10:00', nome: 'Arco do Triunfo' }
-    ]
+    }, [id]);
+    
+    useEffect(() => {
+        fetch(`http://localhost:8081/destinos/${id}`)
+            .then(res => res.json())
+            .then(data => setDestinoAtual(data))
+            .catch(err => console.error(err));
+    }, [id]);
 
-    const voos = [
-        { empresa: 'Air France', trecho: 'GRU → CDG • 22:00', data: '15/06/2026' },
-        { empresa: 'Air France', trecho: 'CDG → GRU • 18:30', data: '25/06/2026' }
-    ]
+        useEffect(() => {
 
-    const hospedagens = [
-        { hotel: 'Hotel Le Marais', endereco: 'Rue des Archives, 75004', periodo: 'Check-in: 15/06/2026 • Check-out: 19/06/2026' }
-    ]
+            fetch(`http://localhost:8081/voos/destino/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    setVoos(data);
+                })
+                .catch(error => console.error(error));
 
-    const transfers = [
-        { tipo: 'Aeroporto → Hotel', data: '15/06/2026 às 08:00' },
-        { tipo: 'Hotel → Aeroporto', data: '25/06/2026 às 15:00' }
-    ]
+        }, [id]);
 
-    const comidas = [
-        { restaurante: 'Le Jules Verne', data: '15/06/2026 às 20:00', tipo: 'Jantar' },
-        { restaurante: 'Café de Flore', data: '16/06/2026 às 09:00', tipo: 'Café da Manhã' }
-    ]
+        useEffect(() => {
+
+        fetch(`http://localhost:8081/hospedagens/destino/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                setHospedagens(data);
+            })
+            .catch(error => console.error(error));
+
+    }, [id]);
+
+        useEffect(() => {
+
+        fetch(`http://localhost:8081/transfers/destino/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                setTransfers(data);
+            })
+            .catch(error => console.error(error));
+
+    }, [id]);
+
+        useEffect(() => {
+
+        fetch(`http://localhost:8081/estabelecimentos/destino/${id}/tipo/RESTAURANTE`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                setComidas(data);
+            })
+            .catch(error => console.error(error));
+
+    }, [id]);
+
+    
+
 
     const renderConteudo = () => {
-        if (abaAtiva === 'roteiro') {
-            return roteiro.map((item, index) => (
-                <div className="detalhe-item" key={index}>
-                    <div className="detalhe-data">
-                        <span>{item.dia}</span>
-                        <span>{item.horario}</span>
-                    </div>
+      if (abaAtiva === 'roteiro') {
 
-                    <h3>{item.nome}</h3>
+    if (atividades.length === 0) {
+        return (
+            <p>Nenhuma atividade cadastrada para este destino.</p>
+        );
+    }
+
+        return atividades.map((atividade) => (
+            <div className="detalhe-item" key={atividade.id}>
+                <div className="detalhe-data">
+                    <span>{atividade.data}</span>
+                    <span>{atividade.horario}</span>
                 </div>
-            ))
-        }
 
-        if (abaAtiva === 'voos') {
-            return voos.map((item, index) => (
-                <div className="detalhe-item detalhe-item-between" key={index}>
-                    <div>
-                        <h3>{item.empresa}</h3>
-                        <p>{item.trecho}</p>
-                    </div>
+                <div>
+                    <h3>{atividade.titulo}</h3>
 
-                    <span>{item.data}</span>
+                    {atividade.descricao && (
+                        <p>{atividade.descricao}</p>
+                    )}
+
+                    {atividade.local && (
+                        <p>{atividade.local}</p>
+                    )}
                 </div>
-            ))
-        }
+            </div>
+        ));
+    }
+
+       if (abaAtiva === 'voos') {
+
+    if (voos.length === 0) {
+        return <p>Nenhum voo cadastrado.</p>;
+    }
+
+        return voos.map((voo) => (
+            <div className="detalhe-item detalhe-item-between" key={voo.id}>
+                <div>
+                    <h3>{voo.companhia}</h3>
+
+                    <p>
+                        {voo.aeroportoOrigem} → {voo.aeroportoDestino}
+                    </p>
+
+                    <p>
+                        Voo: {voo.numeroVoo}
+                    </p>
+                </div>
+
+                <div>
+                    <p>Partida: {voo.dataHoraPartida}</p>
+                    <p>Chegada: {voo.dataHoraChegada}</p>
+                </div>
+            </div>
+        ));
+    }
 
         if (abaAtiva === 'hospedagens') {
-            return hospedagens.map((item, index) => (
-                <div className="detalhe-item" key={index}>
-                    <h3>{item.hotel}</h3>
-                    <p>{item.endereco}</p>
-                    <p>{item.periodo}</p>
-                </div>
-            ))
-        }
 
-        if (abaAtiva === 'transfers') {
-            return transfers.map((item, index) => (
-                <div className="detalhe-item" key={index}>
+            if (hospedagens.length === 0) {
+                return <p>Nenhuma hospedagem cadastrada.</p>;
+            }
+
+                return hospedagens.map((item) => (
+                    <div className="detalhe-item" key={item.id}>
+                        <h3>{item.nome}</h3>
+
+                        <p>{item.endereco}</p>
+
+                        <p>
+                            Check-in: {item.checkIn}
+                        </p>
+
+                        <p>
+                            Check-out: {item.checkOut}
+                        </p>
+
+                        {item.observacao && (
+                            <p>{item.observacao}</p>
+                        )}
+                    </div>
+                ));
+            }
+
+       if (abaAtiva === 'transfers') {
+
+            if (transfers.length === 0) {
+                return <p>Nenhum transfer cadastrado.</p>;
+            }
+
+            return transfers.map((item) => (
+                <div className="detalhe-item" key={item.id}>
                     <h3>{item.tipo}</h3>
-                    <p>{item.data}</p>
+
+                    <p>
+                        {item.localOrigem} → {item.localDestino}
+                    </p>
+
+                    <p>
+                        {item.dataHora}
+                    </p>
+
+                    {item.observacao && (
+                        <p>{item.observacao}</p>
+                    )}
                 </div>
-            ))
+            ));
         }
 
         if (abaAtiva === 'comidas') {
-            return comidas.map((item, index) => (
-                <div className="detalhe-item detalhe-item-between" key={index}>
-                    <div>
-                        <h3>{item.restaurante}</h3>
-                        <p>{item.data}</p>
-                    </div>
 
-                    <span className="tag-refeicao">{item.tipo}</span>
+            if (comidas.length === 0) {
+                return <p>Nenhum restaurante cadastrado.</p>;
+            }
+
+            return comidas.map((item) => (
+                <div className="detalhe-item" key={item.id}>
+                    <h3>{item.nome}</h3>
+
+                    <p>{item.endereco}</p>
+
+                    {item.observacao && (
+                        <p>{item.observacao}</p>
+                    )}
+
+                   
                 </div>
-            ))
+            ));
         }
     }
 

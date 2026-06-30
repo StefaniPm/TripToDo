@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/atividades")
+@CrossOrigin(origins = "http://localhost:5173")
 public class AtividadeController {
 
     private final AtividadeService atividadeService;
@@ -30,10 +32,17 @@ public class AtividadeController {
     }
 
     @PostMapping
-    public ResponseEntity<AtividadeResponseDTO> criar(@Valid @RequestBody AtividadeRequestDTO dto) {
-        AtividadeResponseDTO atividadeCriada = atividadeService.criar(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(atividadeCriada);
-    }
+public ResponseEntity<AtividadeResponseDTO> criar(@Valid @RequestBody AtividadeRequestDTO dto) {
+
+    System.out.println("=================================");
+    System.out.println("CHEGOU NO CONTROLLER");
+    System.out.println("Título: " + dto.getTitulo());
+    System.out.println("Destino: " + dto.getDestinoId());
+    System.out.println("=================================");
+
+    AtividadeResponseDTO atividadeCriada = atividadeService.criar(dto);
+    return ResponseEntity.status(HttpStatus.CREATED).body(atividadeCriada);
+}
 
     @GetMapping
     public ResponseEntity<List<AtividadeResponseDTO>> listarTodas() {
