@@ -68,10 +68,9 @@ Ou execute a classe principal do projeto pela IDE.
 cd frontend
 
 npm run dev
-
-
 ```
 Abrir link gerado
+
 ---
 
 ## Funcionalidades
